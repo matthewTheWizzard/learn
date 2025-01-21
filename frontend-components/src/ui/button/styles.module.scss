@@ -1,0 +1,39 @@
+.button {
+    padding: 10px 20px;
+
+    border-radius: 5px;
+    font-weight: 600;
+    border-width: 2px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.buttonPrimary {
+    background-color: #4c00ff;
+    border: 1px solid #4c00ff;
+    color: #ffffff;
+
+    &:hover {
+        background-color: #5445db;
+    }
+}
+
+.buttonWarning {
+    background-color: #ffd000;
+    border: 1px solid #ffd000;
+    color: #ffffff;
+
+    &:hover {
+        background-color: #d1b63f;
+    }
+}
+
+.buttonDanger {
+    background-color: #ff0000;
+    border: 1px solid #ff0000;
+    color: #ffffff;
+
+    &:hover {
+        background-color: #db5454;
+    }
+}   
