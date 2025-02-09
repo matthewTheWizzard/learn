@@ -1,5 +1,5 @@
 import http from 'http';
-import {logger} from '../../utils/logger.js'
+import { logger } from '../../utils/logger.js'
 
 const mimeTypes = {
     html: 'text/html',
@@ -25,11 +25,6 @@ const statusCodes = {
 const PORT = 3000;
 
 const server = http.createServer((req, res) => {
-    // logger('success', `Method: ${req.method}`);
-    // logger('success', `URL: ${req.url}`);
-    // logger('success', `Headers: ${JSON.stringify(req.headers)}`);
-
-    
     const foo = () => {
         const random = Math.floor(Math.random() * 10);
         
@@ -50,7 +45,6 @@ const server = http.createServer((req, res) => {
             res.writeHead(statusCodes.badRequest, { 'Content-Type': mimeTypes.json });
             res.end(JSON.stringify({ message: e.message }));
         }
-      
     }
 
     foo();

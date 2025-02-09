@@ -6,7 +6,17 @@ class Component {
       this.text = text;
   }
 
-  init() {
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Initializes the component by creating an HTML element based on its tag,
+ * props, text, and children. Attributes are set from props, text content is 
+ * set if provided, and child components are initialized and appended. 
+ * Returns the root HTML element representing the component.
+ * 
+ * @returns {HTMLElement} The initialized root element of the component.
+ */
+
+/******  80e4f987-4da4-489e-906d-e66f78337963  *******/  init() {
       const root = document.createElement(this.tag);
       Object.keys(this.props).forEach((key) => root.setAttribute(key, this.props[key]));
 
@@ -14,13 +24,7 @@ class Component {
           root.textContent = this.text;
       }
 
-      this.children.forEach((child) => {
-          if (typeof child === 'string') {
-              root.appendChild(document.createTextNode(child));
-          } else {
-              root.appendChild(child.init());
-          }
-      });
+      this.addChildren(this.children);
       this.root = root;
       return root;
   }
@@ -34,10 +38,18 @@ class Component {
 
   addChildren(children) {
       this.children = [...this.children, ...children];
+
+      children.forEach((child) => {
+          if (typeof child === 'string') {
+              this.root.appendChild(document.createTextNode(child));
+          } else {
+              this.root.appendChild(child.init());
+          }
+      });
   }
 
   addListener(event, callback) {
-      root.addEventListener(event, callback);
+      this.root.addEventListener(event, callback);
   }
 }
 
@@ -94,8 +106,8 @@ class Navigation extends Component {
           tag: 'nav',
       });
 
-      this.addChildren([this.aboutBtn, this.homeBtn]);
       this.appInstance = appInstance;
+      this.addChildren([this.aboutBtn, this.homeBtn]);
   }
 
   attachEvents() {
