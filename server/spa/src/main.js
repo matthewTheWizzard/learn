@@ -1,146 +1,48 @@
-class Component {
-  constructor({ tag, props, text, children }) {
-      this.tag = tag;
-      this.props = props ?? {};
-      this.children = children ?? [];
-      this.text = text;
-  }
+const root = document.getElementById('app');
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * Initializes the component by creating an HTML element based on its tag,
- * props, text, and children. Attributes are set from props, text content is 
- * set if provided, and child components are initialized and appended. 
- * Returns the root HTML element representing the component.
- * 
- * @returns {HTMLElement} The initialized root element of the component.
- */
+const mainButton = document.createElement('button');
+mainButton.textContent = 'Go to main';
+root.append(mainButton);
 
-/******  80e4f987-4da4-489e-906d-e66f78337963  *******/  init() {
-      const root = document.createElement(this.tag);
-      Object.keys(this.props).forEach((key) => root.setAttribute(key, this.props[key]));
+mainButton.addEventListener('click', ()=> goTo('/main'));
 
-      if (this.text) {
-          root.textContent = this.text;
-      }
+const mainLink = document.createElement('a');
+mainLink.href = '/main';
+mainLink.textContent = 'Go to main';
+root.append(mainLink);
 
-      this.addChildren(this.children);
-      this.root = root;
-      return root;
-  }
+const aboutButton = document.createElement('button');
+aboutButton.textContent = 'Go to about';
+root.append(aboutButton);
 
-  render(parent) {
-      parent.innerHTML = '';
-      const root = this.init();
-      parent.appendChild(root);
-      return root;
-  }
+aboutButton.addEventListener('click', ()=> goTo('/about'));
 
-  addChildren(children) {
-      this.children = [...this.children, ...children];
-
-      children.forEach((child) => {
-          if (typeof child === 'string') {
-              this.root.appendChild(document.createTextNode(child));
-          } else {
-              this.root.appendChild(child.init());
-          }
-      });
-  }
-
-  addListener(event, callback) {
-      this.root.addEventListener(event, callback);
-  }
+const createPage = (page) => {
+    const pageContainer = document.createElement('div');
+    pageContainer.className = page;
+    pageContainer.textContent = page;
+    
+    return pageContainer
 }
 
-class MainPage extends Component {
-  constructor() {
-      super({
-          tag: 'main',
-          children: [
-              new Component({
-                  tag: 'h1',
-                  text: 'Главная'
-              }),
-              new Component({
-                  tag: 'p',
-                  text: 'Добро пожаловать на главную страницу!'
-              })
-          ]
-      });
-  }
+const container = document.createElement('div');
+container.className = 'container';
+root.append(container);
+
+const mainPage = createPage('main')
+const aboutPage = createPage('about')
+
+const routes = {
+    '/main': mainPage,
+    '/about': aboutPage
 }
 
-class AboutPage extends Component {
-  constructor() {
-      super({
-          tag: 'main',
-          children: [
-              new Component({
-                  tag: 'h1',
-                  text: 'О нас'
-              }),
-              new Component({
-                  tag: 'p',
-                  text: 'Здесь информация о нас.'
-              })
-          ]
-      });
-  }
+const goTo = (path) => {
+    const page = routes[path];
+    
+    if (page) {
+        container.replaceChildren(page);
+    }
 }
 
-class Navigation extends Component {
-  aboutBtn = new Component({
-    tag: 'button',
-    text: 'Главная',
-    props: { id: 'home-btn' }
-})
-
-  homeBtn = new Component({
-    tag: 'button',
-    text: 'О нас',
-    props: { id: 'about-btn' }
-})
-  constructor(appInstance) {
-      super({
-          tag: 'nav',
-      });
-
-      this.appInstance = appInstance;
-      this.addChildren([this.aboutBtn, this.homeBtn]);
-  }
-
-  attachEvents() {
-    this.aboutBtn.addListener('click', () => this.appInstance.navigate('about'));
-    this.homeBtn.addListener('click', () => this.appInstance.navigate('home'));
-  }
-}
-
-class App {
-  constructor() {
-      this.routes = {
-          home: MainPage,
-          about: AboutPage
-      };
-  }
-
-  navigate(page) {
-      const root = document.getElementById('app');
-      new this.routes[page]().render(root);
-  }
-
-  start() {
-      document.body.innerHTML = '';
-      
-      const nav = new Navigation(this);
-      const appContainer = new Component({ tag: 'div', props: { id: 'app' } });
-
-      nav.render(document.body);
-      appContainer.render(document.body);
-      nav.attachEvents();
-      
-      this.navigate('home');
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => new App().start());
+container.append(mainPage);

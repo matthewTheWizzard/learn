@@ -1,28 +1,23 @@
 // фарбичная функция/ factory function/method
 const createCell = ({x, y, isActive}) => {
-    const state = {
+    const cell = {
         x,
         y,
-        isActive
-    }
-
-    const cell = {
+        isActive,
         activate() {
-            state.isActive = true
+            cell.isActive = true
         },
     
         getState() {
             return {
-                x: state.x,
-                y: state.y,
-                isActive: state.isActive
+                x: cell.x,
+                y: cell.y,
+                isActive: cell.isActive
             }
         }
     }
 
-    return {
-        actions: cell,
-    }
+    return cell
 }
 
 const cell_1 = createCell({x: 0, y: 0, isActive: false})

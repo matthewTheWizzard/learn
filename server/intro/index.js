@@ -1,5 +1,5 @@
 import http from 'http';
-import { logger } from '../../utils/logger.js'
+import { logger } from '../../utils/logger.js';
 
 const mimeTypes = {
     html: 'text/html',
@@ -18,13 +18,16 @@ const statusCodes = {
     ok: 200,
     created: 201,
     notFound: 404,
+    permenantRedirect: 301,
     serverError: 500,
     badRequest: 400
 }
 
-const PORT = 3000;
+const PORT = 3001;
 
 const server = http.createServer((req, res) => {
+    logger('info', `${req.method} / ${req.url}`);
+    logger('info', `${req.headers['user-agent']}`);
     const foo = () => {
         const random = Math.floor(Math.random() * 10);
         
